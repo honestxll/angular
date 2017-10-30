@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="app">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css">
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.js"></script>
+    <script src="https://cdn.bootcss.com/angular.js/1.6.6/angular.min.js"></script>
+    <style>
+        /*配合body的ng-clock解决加载的时候有{{}}的问题*/
+
+        .ng-cloak {
+            display: none;
+        }
+
+    </style>
+</head>
+
+<body ng-controller="ctrl" ng-cloak>
+
+    <div class="ui container">
+        <h1 class="ui dividing header">ng-show && ng-cloak</h1>
+
+        <div class="ui form">
+            <div class="inline fields">
+                <label for="love">爱不爱我</label>
+                <div class="field">
+                    <div class="ui raido checkbox">
+                        <input type="radio" name="love" ng-model="status" value="1">
+                        <label>爱</label>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui raido checkbox">
+                        <input type="radio" name="love" checked ng-model="status" value="0">
+                        <label>不爱</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h2>{{status}}</h2>
+        <!--也可以用ng-if-->
+        <div class="ui negative message" ng-show="status==0">我是真的受伤了</div>
+        <div class="ui positive message" ng-hide="status==0">不错不错</div>
+
+        <div class="ui form">
+            <div class="inline fields">
+                <label for="love">接受协议:</label>
+                <div class="field">
+                    <div class="ui raido checkbox">
+                        <input type="checkbox" ng-model="auth">
+                        <label>{{auth}}</label>
+                    </div>
+                </div>
+            </div>
+            <button class="ui positive button" ng-disabled="!auth">提交</button>
+        </div>
+    </div>
+
+    <script>
+        // 默认我是将不爱选中的，但是配合angular的时候出现了bug,checkbox函数没有生效
+        // 学到后面再看看有没有解决的办法
+        var m = angular.module('app', []);
+        m.controller('ctrl', function($scope) {
+            $scope.status = 1;
+        });
+        $('.ui.radio.checkbox')
+            .checkbox();
+    </script>
+</body>
+
+</html>
