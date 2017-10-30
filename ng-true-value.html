@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="app">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css">
+    <script src="https://cdn.bootcss.com/angular.js/1.6.6/angular.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.js"></script>
+</head>
+
+<body>
+    <div class="ui container" ng-controller="ctrl">
+
+        <h1 class="ui dividing header">ng-true-value</h1>
+
+        <div class="ui inline fields">
+            <label for="like">喜欢什么？</label>
+            <div class="ui field">
+                <div class="ui checkbox">
+                    <input type="checkbox" name="like" ng-model="data.game" ng-true-value="1" ng-false-value="0" ng-change="change()">
+                    <label>游戏</label>
+                </div>
+            </div>
+            <div class="ui field">
+                <div class="ui checkbox">
+                    <input type="checkbox" name="like" ng-model="data.movie" ng-true-value="1" ng-false-value="0">
+                    <label>电影</label>
+                </div>
+            </div>
+        </div>
+
+        <h2>{{ data }}</h2>
+
+        <div class="ui positive message" ng-show="data.game==1">League of Legends</div>
+
+        <div class="ui purple message" ng-show="data.movie==1">缝纫机乐队</div>
+
+    </div>
+
+    <script>
+        var m = angular.module('app', []);
+        m.controller('ctrl', function($scope) {
+            $scope.data = {
+                game: 0,
+                movie: 0
+            };
+            $scope.change = function() {
+                console.log(this.data);
+            }
+        });
+    </script>
+</body>
+
+</html>
