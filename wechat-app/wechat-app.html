@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="app">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>一个微信的demo</title>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body ng-controller="ctrl" ng-cloak>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-4">
+                <div class="mobile">
+                    <dl ng-repeat="v in data.button">
+                        <dt>{{v.name}}</dt>
+                        <dd>
+                            <a href="javascript:;" ng-repeat="second in v.sub_button">{{second.name}}</a>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="col-xs-8">
+                <form action="" class="form-horizontal">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">编辑</h3>
+                        </div>
+                        <div class="panel-body">
+                            <!-- 一级菜单开始 -->
+                            <div class="panel panel-default firstMenu" ng-repeat="v in data.button">
+                                <i class="fa fa-times-circle fa-2x fa-first" ng-click="removeFirstMenu($index)"></i>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <label for="title" class="col-xs-2 control-label">标题</label>
+                                        <div class="col-xs-10">
+                                            <input type="text" class="form-control" id="title" placeholder="请输入标题" ng-model="v.name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group" ng-hide="v.sub_button.length>0">
+                                        <label for="url" class="col-xs-2 control-label">类型</label>
+                                        <div class="col-xs-10">
+                                            <label class="radio-inline">
+                                                <input type="radio" value="click" ng-model="v.type"> 关键词
+                                            </label>
+                                            <label class="radio-inline">
+                                                <input type="radio" value="view" ng-model="v.type"> 网址
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" ng-if="v.type=='click' && (v.sub_button.length==0 || !v.sub_button)">
+                                        <label for="url" class="col-xs-2 control-label">关键词</label>
+                                        <div class="col-xs-10">
+                                            <input type="text" class="form-control" placeholder="请输入关键词" ng-model="v.key">
+                                        </div>
+                                    </div>
+                                    <div class="form-group" ng-if="v.type=='view' && (v.sub_button.length==0 || !v.sub_button)">
+                                        <label for="url" class="col-xs-2 control-label">链接</label>
+                                        <div class="col-xs-10">
+                                            <input type="text" class="form-control" placeholder="请输入链接">
+                                        </div>
+                                    </div>
+                                    <!-- 二级菜单开始 -->
+                                    <div class="panel panel-default secondMenu" ng-repeat="second in v.sub_button">
+                                        <i class="fa fa-times-circle fa-2x fa-second" ng-click="removeSecondMenu($parent.$index, $index)"></i>
+                                        <div class="panel-body">
+                                            <div class="form-group">
+                                                <label for="title" class="col-xs-2 control-label">标题</label>
+                                                <div class="col-xs-10">
+                                                    <input type="text" class="form-control" id="title" placeholder="请输入标题" ng-model="second.name">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="url" class="col-xs-2 control-label">类型</label>
+                                                <div class="col-xs-10">
+                                                    <label class="radio-inline">
+                                                        <input type="radio" value="click" ng-model="second.type"> 关键词
+                                                    </label>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" value="view" ng-model="second.type"> 网址
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group" ng-if="second.type=='click'">
+                                                <label for="url" class="col-xs-2 control-label">关键词</label>
+                                                <div class="col-xs-10">
+                                                    <input type="text" class="form-control" placeholder="请输入关键词" ng-model="second.key">
+                                                </div>
+                                            </div>
+                                            <div class="form-group" ng-if="second.type=='view'">
+                                                <label for="url" class="col-xs-2 control-label">链接</label>
+                                                <div class="col-xs-10">
+                                                    <input type="text" class="form-control" placeholder="请输入链接">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-info" ng-click="addSecondMenu(v)">添加二级菜单</button>
+                                    <!-- 二级菜单结束 -->
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-success" ng-click="addFirstMenu()">添加一级菜单</button>
+                            <!-- 一级菜单结束 -->
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/angular.js/1.6.6/angular.min.js"></script>
+<script src="common.js"></script>
+
+</html>

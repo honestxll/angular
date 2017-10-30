@@ -1,0 +1,60 @@
+.mobile {
+    height: 500px;
+    border: 1px solid #ddd;
+    display: flex;
+    border-radius: 4px;
+}
+
+dl {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex: 1;
+    flex-direction: column-reverse;
+}
+
+dl dt {
+    background: #999;
+    color: #fff;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border: 1px solid #f5f4f4;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+dl dd {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+dl dd a {
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid #e6e6e6;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.panel-default.firstMenu,
+.panel-default.secondMenu {
+    position: relative;
+}
+
+.panel-default.firstMenu:hover .fa-first,
+.panel-default.secondMenu:hover .fa-second {
+    opacity: 1;
+    transform: rotate(360deg);
+}
+
+.fa.fa-times-circle {
+    position: absolute;
+    right: -12px;
+    top: -12px;
+    color: #999;
+    opacity: 0;
+    background: #fff;
+    transition: all .5s;
+}
