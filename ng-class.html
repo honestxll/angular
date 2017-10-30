@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="app">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css">
+    <script src="https://cdn.bootcss.com/angular.js/1.6.6/angular.min.js"></script>
+    <title>Document</title>
+    <style>
+        .font {
+            font-size: 40px;
+            line-height: 60px;
+            font-weight: lighter;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ui container" ng-controller="ctrl">
+
+        <h1 class="ui dividing header">ng-class</h1>
+
+        <div ng-class="{red: false, font: true}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus, maiores, sunt. Amet id hic accusamus adipisci ipsam voluptates maiores eius architecto iste, quia error ipsa dolor saepe quasi cum veritatis?</div>
+
+        <div ng-class="['ui',tag ? 'positive' : 'negative','message']">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate deserunt inventore aliquam asperiores eveniet obcaecati fugit, esse ducimus, quo necessitatibus minus cupiditate, sequi! Eveniet non, fugiat praesentium similique soluta quas?</div>
+
+        <table class="ui table">
+            <thead>
+                <tr>
+                    <th>编号</th>
+                    <th>姓名</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="v in data" ng-class-odd="['error']" ng-class-even="['warning']">
+                    <td>{{v.id}}</td>
+                    <td> <i class="warning icon" ng-if="$even"></i> {{v.username}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        var m = angular.module('app', []);
+        m.controller('ctrl', function($scope) {
+            $scope.tag = true;
+            $scope.data = [
+                { id: 1, username: 'honest'},
+                { id: 2, username: 'xll'},
+                { id: 3, username: 'machine'}
+            ];
+        })
+    </script>
+</body>
+
+</html>
