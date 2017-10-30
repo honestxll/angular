@@ -1,0 +1,18 @@
+<table class="ui red table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>名称</th>
+            <th>年龄</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="v in data">
+            <td>{{v.id}}</td>
+            <td>{{v.name}}</td>
+            <td>{{v.age}}</td>
+            <td><a ui-sref="userInfo({id: v.id})">查看详情</a></td>
+        </tr>
+    </tbody>
+</table>
