@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="app">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Server</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+
+<body ng-cloak>
+    <div class="ui container" ng-controller="ctrl">
+
+        <div class="ui section"></div>
+        <div class="ui header">自定义服务</div>
+
+        <table class="ui padded table">
+            <thead>
+                <tr>
+                    <th>name</th>
+                    <th>content</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="v in data">
+                    <td ng-class="$first ? ['ui', 'ribbon', 'label'] : ''">{{v.name}}</td>
+                    <td>{{v.content}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/angular.js/1.6.6/angular.min.js"></script>
+<script src="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.js"></script>
+<script>
+    var m = angular.module('app', []);
+    /**
+     * 自定义了一个服务通过回调函数的形式来处理结果
+     */
+    // m.factory('lists', function($http){
+    //     return {
+    //         get: function(callback){
+    //             $http({url: '../json/tab.json'})
+    //                 .then(res=>{
+    //                     callback(res);
+    //                 })
+    //         }
+    //     }
+    // })
+    // m.controller('ctrl', function($scope, lists) {
+    //     lists.get(function(res){
+    //         $scope.data = res.data.data;
+    //     })
+    // })
+
+    /**
+     * 通过 promise 的形式来处理结果
+     * 这种方式耦合度要偏小一点
+     */
+     m.factory('lists', function($http){
+         return {
+             get: function(callback){
+                 return $http({url: '../json/tab.json'});
+             }
+         }
+     })
+     m.controller('ctrl', function($scope, lists) {
+         lists.get()
+             .then(response=>{
+                 $scope.data = response.data.data;
+             })
+     })
+</script>
+
+</html>
