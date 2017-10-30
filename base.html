@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="app">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css">
+    <script src="https://cdn.bootcss.com/angular.js/1.6.6/angular.min.js"></script>
+</head>
+
+<body>
+    <div class="ui container">
+        <h1 class="ui dividing header">Angular Base</h1>
+        <div ng-controller="ctrl">
+            <form action="" class="ui form">
+                <div class="two fields">
+                    <div class="field">
+                        <label for="num">数量</label>
+                        <input type="number" id="num" ng-model="goods.num">
+                    </div>
+                    <div class="field">
+                        <label for="price">价格</label>
+                        <input type="number" id="price" ng-model="goods.price">
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="price">总价</label>
+                    <!--注意如果是想要计算结果的话，就不能用ng-bind了，需要用ng-value或者是ng-model-->
+                    <input type="number" id="price" ng-value="goods.num * goods.price">
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        var m = angular.module('app', []);
+        m.controller('ctrl', function($scope) {
+            $scope.goods = {
+                name: 'apple',
+                num: 20,
+                price: 5
+            }
+        });
+    </script>
+</body>
+
+</html>
