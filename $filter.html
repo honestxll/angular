@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="app">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>过滤器 $filter</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+
+<body ng-controller="ctrl" ng-cloak>
+    <div class="ui container">
+        <div class="ui section divider"></div>
+
+        <h1 class="ui header">过滤器 $filter</h1>
+
+        <button class="ui positive button">{{num|currency:'￥':2}}</button>
+        <button class="ui negative button">{{num|reverse:int}}</button>
+        <button class="ui primary button">{{time|date:'yyyy-MM-dd HH:mm::ss'}}</button>
+        <h1>{{copyRight|limitTo:15}}</h1>
+        <table class="ui blue center aligned table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="v in data|orderBy:'id':true">
+                    <td>{{v.id}} [按照ID倒序]</td>
+                    <td>{{v.name}}</td>
+                </tr>
+
+                <tr class="positive" ng-repeat="v in data|filter:'u'">
+                    <td>{{v.id}} [数据中带有u的]</td>
+                    <td>{{v.name}}</td>
+                </tr>
+
+                <tr class="warning" ng-repeat="v in data|filter:2">
+                    <td>{{v.id}} [id为1的]</td>
+                    <td>{{v.name}}</td>
+                </tr>
+
+                <tr class="negative" ng-repeat="v in data|filter:'Vue':true">
+                    <td>{{v.id}} [完全匹配Vue的,区分大小写]</td>
+                    <td>{{v.name}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="ui pink center aligned table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Fruits</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="v in fruits">
+                    <td>{{v.id}} [按照ID {{tag?'升序':'倒序'}}]</td>
+                    <td>{{v.fruit}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <button ng-class="['ui', tag ? 'olive' : 'orange', 'fluid', 'button']" ng-click="sort()">按照ID{{!tag?'升序':'倒序'}}</button>
+
+        <h1>根据不同字段来进行排序，点击字段测试</h1>
+
+        <table class="ui red center aligned table">
+            <thead>
+                <tr>
+                    <th ng-click="animalOrder('id')" data-content="点我按照id升降序">ID</th>
+                    <th ng-click="animalOrder('animal')" data-content="点我按照Animal升降序">Animal</th>
+                    <th ng-click="animalOrder('age')" data-content="点我按照Age升降序">Age</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="v in animals">
+                    <td>{{v.id}}</td>
+                    <td>{{v.animal}}</td>
+                    <td>{{v.age}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="ui section divider"></div>
+
+    </div>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/angular.js/1.6.6/angular.min.js"></script>
+<script src="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.js"></script>
+<script>
+    var m = angular.module('app', []);
+    m.controller('ctrl', function($scope, $filter) {
+        $scope.num = 4325.2373;
+        $scope.copyRight = '自豪的使用WordPress!!!';
+        $scope.time = new Date().getTime();
+        $scope.data = [
+            { id: 1, name: 'React' },
+            { id: 2, name: 'Vue' },
+            { id: 3, name: 'angular' }
+        ];
+        // 在控制器中使用过滤器
+        $scope.tag = true;
+        $scope.fruits = [
+            { id: 1, fruit: '🍎' },
+            { id: 2, fruit: '🍐' },
+            { id: 3, fruit: '🍌' }
+        ];
+        $scope.animals = [
+            { id: 1, animal: '🐶', age: 2 },
+            { id: 2, animal: '🐬', age: 3 },
+            { id: 3, animal: '🐱', age: 1 }
+        ];
+        $scope.sort = () => {
+            $scope.fruits = $filter('orderBy')($scope.fruits, 'id', $scope.tag);
+            $scope.tag = !$scope.tag;
+        }
+        // 根据不同的字段来改变排序
+        $scope.animalOrder = function (field) {
+            if(angular.isUndefined(arguments.callee[field]))
+                arguments.callee[field] = false;
+            arguments.callee[field] = !arguments.callee[field];
+            $scope.animals = $filter('orderBy')($scope.animals, field, arguments.callee[field]);
+        }
+    });
+    m.filter('reverse', () => {
+        return (input, int) => {
+            input = input || '';
+            let ret = input.toString().split('').reverse().join('');
+            if (int) {
+                return ret;
+            } else {
+                return parseInt(ret);
+            }
+        }
+    })
+    $('.ui.red.table th').popup({
+        position   : 'top center'
+    });
+</script>
+
+</html>
