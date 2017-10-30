@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="app">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css">
+    <script src="https://cdn.bootcss.com/angular.js/1.6.6/angular.min.js"></script>
+</head>
+
+<body>
+    <div class="ui container" ng-controller="ctrl">
+
+        <h1 class="ui dividing header">extend && some api</h1>
+
+        <select ng-options="v.value as v.name for v in data" ng-model="city">
+            <option value="">请选择城市</option>
+        </select>
+
+        <h2>{{city}}</h2>
+
+        <h3>{{data.title}} {{data.src}}</h3>
+    </div>
+    <script>
+        var m = angular.module('app', []);
+        m.controller('ctrl', function($scope) {
+            $scope.city = 1;
+            $scope.data = [
+                { name: '天津', value: 1 },
+                { name: '南京', value: 2 },
+                { name: '上海', value: 3 }
+            ];
+            $scope.data.push({name: '长江', value: 4});
+            angular.extend($scope.data, { title: '网址' });
+            $scope.data.src = 'https://www.baidu.com';
+            console.log($scope.data);
+            angular.forEach($scope.data, function(v, k){
+                console.log(v);
+            });
+            var jsonStr = angular.toJson($scope.data),
+                dataObj = angular.fromJson(jsonStr);
+            console.log(jsonStr);
+            console.log(dataObj);
+            console.log(angular.isArray([]));
+        });
+    </script>
+</body>
+
+</html>
