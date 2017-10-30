@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="app">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css">
+    <script src="https://cdn.bootcss.com/angular.js/1.6.6/angular.min.js"></script>
+    <style>
+        /*配合body的ng-clock解决加载的时候有{{}}的问题*/
+
+        .ng-cloak {
+            display: none;
+        }
+    </style>
+</head>
+
+<body ng-controller="ctrl" ng-cloak>
+
+    <div class="ui container">
+        <h1 class="ui dividing header">ng-repeat</h1>
+
+        <div class="ui piled segment">
+            <div class="ui list">
+                <div class="item" ng-repeat="(k,v) in data">
+                    <!-- $first、$last、$$even、$odd、$middle -->
+                    <i class="tag icon" ng-if="$first"></i>
+                    <i class="external Share icon" ng-if="$last"></i>
+                    <i class="send outline icon" ng-if="$even && !$first"></i>
+                    <i class="child icon" ng-if="$odd && !$last"></i>
+                    <div class="content">
+                        <div class="header">{{k+1+'.'}}{{v.schname}}</div>
+                        <div class="description">{{v.resume}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <ol>
+            <!-- 有重复内容的解决办法 -->
+            <li ng-repeat="v in fruits track by $index">{{v}}</li>
+        </ol>
+
+    </div>
+
+    <script>
+        var m = angular.module('app', []);
+        m.controller('ctrl', function($scope, $http) {
+            $http({
+                method: 'post',
+                url: 'https://www.wingca.com/index.php?m=api&c=index&a=school'
+            }).then(res => $scope.data = res.data);
+            $scope.fruits = ['🍎', '🍐', '🍋', '🍎'];
+        })
+    </script>
+</body>
+
+</html>
