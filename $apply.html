@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="app">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>$apply</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css">
+    <!-- <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+</head>
+
+<body ng-cloak>
+    <div class="ui container" ng-controller="ctrl">
+
+        <div class="ui section"></div>
+        <div class="ui header">检查脏数据</div>
+
+        <h1>{{name}}</h1>
+
+        <button class="ui negative button">修改</button>
+
+        <div class="ui divider"></div>
+
+        <div ng-bind-html="data"></div>
+
+    </div>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/angular.js/1.6.6/angular.min.js"></script>
+<script src="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.js"></script>
+<script>
+    var m = angular.module('app', []);
+    m.controller('ctrl', function($scope, $timeout, $interval, $window, $sce) {
+        $scope.name = '光辉岁月';
+        $('.ui.button').click(function() {
+            $scope.name = '再见理想:)';
+            // 因为我们不是通过 $scope 来触发修改内容的，所以 angular 不会再重新检查数据,所以我们要手动的检查一遍
+            $scope.$apply();
+        });
+        // 如果不用内置的服务就需要用 $scope.$apply() 来清理脏数据
+        setTimeout(function(){
+            $scope.name = '不再犹豫:)';
+            $scope.$apply();
+        }, 2000);
+        $timeout(function(){
+            $scope.name = '冷雨夜:)';
+            var i = 0,
+                song = ['海阔天空', '真的爱你', '喜欢你', '大地'],
+                id = $interval(function(){
+                $scope.name = song[i];
+                i<2 || $interval.cancel(id) && $window.alert('取消了');
+                i++;
+            }, 1000)
+        }, 3000)
+        // 取消 $timeout.cancle($timeout返回的数据)
+        $scope.data = $sce.trustAsHtml('<h1>https://www.baidu.com</h1>');
+    })
+</script>
+
+</html>
