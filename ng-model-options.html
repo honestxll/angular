@@ -17,8 +17,8 @@
             <!-- 为了节省性能的做法 -->
             <input type="text" ng-model="title" ng-model-options="{updateOn: 'blur', debounce: 1000}">
         </div>
-        <!-- 如果要添加多个参数，那么就要给每个参数添加一个default值
-        如 updateOn: 'blur' 就要写成 updateOn: 'default blur' -->
+        <!-- 如果要添加多个参数，那么就要给每个参数添加一个default值 -->
+        <!-- 如 updateOn: 'blur' 就要写成 updateOn: 'default blur' -->
         <div class="ui input">
             <input type="text" ng-model="name" ng-model-options="{updateOn: 'default blur', debounce: { default: 2000, blur: 1000 }}">
         </div>
