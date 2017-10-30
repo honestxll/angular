@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css">
+    <script src="https://cdn.bootcss.com/angular.js/1.6.6/angular.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div class="ui container" ng-controller="ctrl">
+
+        <h1 class="ui dividing header">ng-model-options</h1>
+
+        <div class="ui input">
+            <!-- 为了节省性能的做法 -->
+            <input type="text" ng-model="title" ng-model-options="{updateOn: 'blur', debounce: 1000}">
+        </div>
+        <!-- 如果要添加多个参数，那么就要给每个参数添加一个default值
+        如 updateOn: 'blur' 就要写成 updateOn: 'default blur' -->
+        <div class="ui input">
+            <input type="text" ng-model="name" ng-model-options="{updateOn: 'default blur', debounce: { default: 2000, blur: 1000 }}">
+        </div>
+
+        <h2>{{title}}</h2>
+        <h2>{{name}}</h2>
+
+    </div>
+    <script>
+    var m = angular.module('app', []);
+    m.controller('ctrl', function($scope){
+
+    })
+    </script>
+</body>
+</html>
