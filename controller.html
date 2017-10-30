@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- <script src="https://cdn.bootcss.com/angular.js/1.6.6/angular.min.js"></script> -->
+    <script src="https://cdn.bootcss.com/angular.js/1.2.32/angular.min.js"></script>
+</head>
+
+<body ng-controller="MyController">
+    <!-- 这种方法不能在1.6版本中使用 -->
+    <h1>{{clock}}</h1>
+    <script>
+        function MyController($scope, $timeout) {
+            function setTime () {
+                $scope.clock = new Date();
+                $timeout(function(){
+                    setTime();
+                }, 1000)
+            }
+            setTime();
+        }
+    </script>
+</body>
+
+</html>
