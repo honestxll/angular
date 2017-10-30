@@ -1,0 +1,8 @@
+<div class="cs-tab">
+    <div class="ui top attached tabular menu">
+        <div ng-class="{item: true, active: $first}" ng-repeat="v in data">{{v.name}}</div>
+    </div>
+    <div class="ui bottom attached tab segment {{$first ? 'active' : ''}}" ng-repeat="v in data">
+        <p>{{v.content}}</p>
+    </div>
+</div>
