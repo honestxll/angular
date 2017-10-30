@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="app">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>directive</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+
+<body ng-cloak>
+    <div class="ui container" ng-controller="ctrl">
+        <div class="ui section divider"></div>
+
+        <h1 class="ui header">指令 Directive</h1>
+        <cs-lorem></cs-lorem>
+        <br>
+        <div class="ui piled segment" cs-message></div>
+        <div cs-cms>HONEST开源框架,通过改变 <xmp><div ng-transclude=""></div></xmp> 的位置来改变我的位置</div>
+        <cs-test></cs-test>
+        <div class="ui section divider"></div>
+
+        <div class="ui form">
+            <div class="field">
+                <label>输入内容： {{title}}</label>
+                <cs-input></cs-input>
+            </div>
+        </div>
+
+        <cs-button color="{{yanse}}"></cs-button>
+
+        <div class="ui section divider"></div>
+    </div>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/angular.js/1.6.6/angular.min.js"></script>
+<script src="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.js"></script>
+<script>
+    var m = angular.module('app', []);
+    m.controller('ctrl', function($scope){
+        $scope.title = '海阔天空';
+        $scope.yanse = 'orange';
+    })
+    m.directive('csLorem', function(){
+        return {
+            restrict: 'AEC', // A attr E element C class
+            template: '<div class="ui piled segment">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit iure unde provident sunt quae facere suscipit consectetur officiis, optio illo, soluta, ullam. Tempora suscipit quos veritatis numquam labore, hic deserunt.</div>'
+        }
+    });
+    m.directive('csMessage', [function(element, attr){
+        return {
+            restrict: 'AE',
+            template: '<div class="ui red message">这个消息盒子可以通过修改 replace 属性来选择是否覆盖,但是外层盒子的 class 属性会传给我们，所以这个功能也很鸡肋</div>',
+            replace: true
+        }
+    }]);
+    m.directive('csCms', [function(element, attr){
+        return {
+            restrict: 'AE',
+            template: '<h1>Honest<div ng-transclude=""></div></h1>',
+            transclude: true
+        }
+    }]);
+    m.directive('csTest', function(){
+        return {
+            restrict: 'AE',
+            templateUrl: '../view/cs-test.html'
+        }
+    })
+    /**
+     * 修改指令的作用域，初始的时候会继承控制器的数据 scope 为 false
+     * 改成 true 的时候 找不到的时候会继承，当找的到的时候就不会再继承
+     * 改成 {} 的时候 连一开始就不会继承
+     */
+    m.directive('csInput', [function(element, attr){
+        return {
+            restrict: 'AE',
+            template: '<input type="text" placeholder="请输入内容" ng-model="title">',
+            scope: true
+        }
+    }]);
+    /**
+     * 指令从属性中来获取
+     */
+    m.directive('csButton', function(){
+        return {
+            restrict: 'AE',
+            template: `<button ng-class="['ui',color,'button']">从属性中来获取数据</button>`,
+            scope: { color: '@color', size: '=' }
+        }
+    })
+</script>
+
+</html>

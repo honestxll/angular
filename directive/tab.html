@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="app">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>directive</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css">
+    <!-- <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+</head>
+
+<body ng-cloak>
+    <div class="ui container">
+
+        <div class="ui section"></div>
+        <div class="ui header">用指令来做一个tab切换的功能</div>
+
+        <cs-tab></cs-tab>
+
+    </div>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/angular.js/1.6.6/angular.min.js"></script>
+<script src="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.js"></script>
+<script>
+    var m = angular.module('app', []);
+    m.directive('csTab', function(){
+        return {
+            restrict: 'E',
+            replate: true,
+            templateUrl: '../view/cs-tab.html',
+            scope: {},
+            controller: function ($scope, $http){
+                $http({
+                    url: '../json/tab.json'
+                }).then(res=>$scope.data = res.data.data)
+            },
+            link: function (scope, el, attr) {
+                $(el).on('click', '.item', function(){
+                    var index = $(this).index();
+                    $(this).addClass('active').siblings().removeClass('active');
+                    $('.cs-tab .segment').removeClass('active');
+                    $('.cs-tab .segment').eq(index).addClass('active');
+                })
+            }
+        }
+    })
+</script>
+
+</html>

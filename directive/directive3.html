@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="app">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>directive</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css">
+    <!-- <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+</head>
+
+<body ng-cloak>
+    <div class="ui container" ng-controller="ctrl">
+        <div class="ui section divider"></div>
+
+        <h1 class="ui header">指令 Directive</h1>
+
+        <h2 class="ui dividing header">在指令中使用控制器</h2>
+
+        <cs-table></cs-table>
+        {{data}}
+        <cs-table></cs-table>
+
+        <cs-h1 bgColor="purple" fontColor="#fff" fontWeight="lighter" data="再见理想:)" align="center"></cs-h1>
+
+        <div class="ui section divider"></div>
+    </div>
+</body>
+<!-- <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script> -->
+<script src="https://cdn.bootcss.com/angular.js/1.6.6/angular.min.js"></script>
+<script src="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.js"></script>
+<script>
+    var m = angular.module('app', []);
+    m.controller('ctrl', function($scope){
+        $scope.data = 1;
+    });
+    m.directive('csTable', function() {
+        return {
+            restrict: 'E',
+            templateUrl: '../view/cs-table.html',
+            controller: function($scope) {
+                $scope.data = [
+                    { id: 1, name: 'Honest', age: 32 },
+                    { id: 2, name: 'Bob', age: 44 }
+                ]
+            }
+        }
+    });
+    m.directive('csH1', function(){
+        return {
+            restrict: 'E',
+            template: '<h1></h1>',
+            replace: true,
+            link: function (scope, element, attribute) {
+                angular.element(element).css({
+                    background: attribute.bgcolor,
+                    color: attribute.fontcolor,
+                    fontWeight: attribute.fontweight,
+                    textAlign: attribute.align
+                }).html(attribute.data);
+            }
+        }
+    })
+</script>
+
+</html>

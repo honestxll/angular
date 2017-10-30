@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="app">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>directive</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+
+<body ng-cloak>
+    <div class="ui container" ng-controller="ctrl">
+        <div class="ui section divider"></div>
+
+        <h1 class="ui header">指令 Directive</h1>
+
+        <h2 class="ui dividing header">现在指令里面的 scope 的 color 值和控制器 里面的 positive 是绑定的 {{positive}}</h2>
+
+        <cs-button x1-color="positive">
+            <i class="heart icon"></i> 喜欢
+        </cs-button>
+
+        <h2 class="ui dividing header">scope隔离作用域之 - 调用父作用域中函数</h2>
+
+        <cs-progress num="percent()"></cs-progress>
+
+        <div class="ui section divider"></div>
+    </div>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/angular.js/1.6.6/angular.min.js"></script>
+<script src="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.js"></script>
+<script>
+    var m = angular.module('app', []);
+    m.controller('ctrl', function($scope) {
+        $scope.name = 'color';
+        $scope.positive = 'negative';
+        $scope.percent = () => 40;
+    });
+    m.directive('csButton', function() {
+        return {
+            restrict: 'AE',
+            template: '<button class="ui labeled icon {{color}} button" ng-transclude>\
+                       </button>\
+                       <div class="ui input">\
+                         <input type="text" ng-model="color"/>\
+                       </div>\
+                       ',
+            scope: {
+                color: '=x1Color'
+            },
+            transclude: true
+        }
+    });
+    // 调用父级作用域的函数
+    m.directive('csProgress', function() {
+        return {
+            restrict: 'AE',
+            template: `<div class="ui teal active progress">
+                            <div class="bar" style="width:{{num()}}%"></div>
+                        </div>`,
+            scope: { num: '&' } // 名字一样可以就写一个 & 如果属性的名字不是 num 那就要改成 scope: { num: '& 对应属性' }
+        }
+    })
+</script>
+
+</html>
