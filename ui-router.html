@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="app">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ui-router</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+
+<body ng-cloak>
+    <div class="ui container" ng-controller="ctrl">
+
+        <div class="ui section"></div>
+        <div class="ui header">他人封装好的ui-router</div>
+
+        <div class="ui menu">
+            <a href="#" class="item">首页</a>
+            <a ui-sref="list" class="item">列表页</a>
+            <a ui-sref="table" class="item">表格</a>
+            <a ui-sref="about" class="item">关于我们</a>
+            <a href="javascript:;" class="item" ng-click="locate()">产品</a>
+        </div>
+
+        <div ui-view>您好，您访问的页面不存在</div>
+
+        <div ng-controller="controller"></div>
+
+    </div>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/angular.js/1.6.6/angular.min.js"></script>
+<script src="https://unpkg.com/angular-ui-router@0.4.3/release/angular-ui-router.min.js"></script>
+<script src="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.js"></script>
+<script>
+    // 加载路由模块
+    var m = angular.module('app', ['ui.router']);
+    // 相当于构造函数要先执行
+    m.config(function($stateProvider, $urlRouterProvider) {
+        // 设置默认路由
+        $urlRouterProvider.otherwise('');
+        // 定义路由规则
+        $stateProvider.state('default', {
+            url: '',
+            template: '<div class="ui header">首页</div>'
+        }).state('list', { // 多个路由的设置方法
+            url: '/list',
+            templateUrl: '../view/card.html'
+        }).state('table', {
+            url: '/table',
+            templateUrl: '../view/cs-user.html',
+            controller: function($scope, $http) {
+                $http({
+                        method: 'get',
+                        url: '../json/user.json'
+                    })
+                    .then(res => $scope.data = res.data.userInfo);
+            }
+        }).state('about', {
+            url: '/about',
+            template: '<h1>{{title}}</h1>',
+            controller: 'controller'
+        }).state('product', {
+            url: '/product',
+            template: '<h1>产品页面</h1>'
+        }).state('userInfo', {
+            url: '/userInfo/{id}',
+            templateUrl: '../view/userInfo.html',
+            controller: function($scope, $stateParams, $http, $filter) {
+                $http({
+                        method: 'get',
+                        url: '../json/user.json'
+                    })
+                    .then(res => {
+                        var result = $filter('filter')(res.data.userInfo, {id: $stateParams.id});
+                        $scope.data = result[0];
+                    });
+            }
+        })
+    })
+    m.controller('ctrl', function($scope, $state) {
+        // 在控制器中跳转
+        $scope.locate = function() {
+            $state.go('product');
+        }
+    })
+    m.controller('controller', function($scope) {
+        $scope.title = '一个关于我们的页面';
+    })
+</script>
+
+</html>
