@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="app">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>监视器 $watch</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+
+<body ng-controller="ctrl" ng-cloak>
+    <div class="ui container">
+        <div class="ui section divider"></div>
+
+        <h1 class="ui header">监视器 $watch</h1>
+
+        <div class="ui form error" ng-init="title=''">
+            <div class="field">
+                <label>标题</label>
+                <input type="text" placeholder="请输入标题" ng-model="title">
+            </div>
+            <div class="ui error message" ng-show="title.length>5">
+                <div class="header"><i class="info icon"></i>WARNING</div>
+                <p>{{error}}</p>
+            </div>
+            <div ng-class="['ui', 'submit', (!title || title.length > 5) ? 'disabled negative' : 'positive', 'button']" ng-disabled="title.length>5">Submit</div>
+        </div>
+
+        <div class="ui section divider"></div>
+
+        <div class="ui fluid input">
+            <input type="text" placeholder="请输入你想搜的关键字" ng-model="search">
+        </div>
+        <table class="ui red center aligned table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>歌曲名称</th>
+                    <th>作者</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="v in list">
+                    <td>{{v.id}}</td>
+                    <td>{{v.name}}</td>
+                    <td>{{v.author}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/angular.js/1.6.6/angular.min.js"></script>
+<script src="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.js"></script>
+<script>
+    var m = angular.module('app', []);
+    m.controller('ctrl', function($scope, $filter) {
+        $scope.$watch('title', function(title, old){
+            $scope.error = title.length > 5 ? '标题的长度不能超过五个字符哦' : '';
+        })
+        /**
+         * title 如果是对象的话，需要给 $watch 传第三个参数为 true
+         * }, true)
+         */
+        $scope.songs = $scope.list =  [
+            { id:1, name: '不再犹豫', author: 'Beyongd' },
+            { id:2, name: '吻别', author: '张学友' },
+            { id:3, name: '太多', author: '陈冠蒲' }
+        ];
+        $scope.$watch('search', function(search, old){
+            $scope.list = $filter('filter')($scope.songs, search);
+        })
+    })
+</script>
+
+</html>
