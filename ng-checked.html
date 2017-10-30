@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css">
+    <script src="https://cdn.bootcss.com/angular.js/1.6.6/angular.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div class="ui container" ng-controller="ctrl">
+
+        <h1 class="ui dividing header">ng-checked</h1>
+
+        <table class="ui red striped center aligned hover table">
+            <thead>
+                <tr>
+                    <th>{{all ? '取消' : '全选'}} <input type="checkbox" ng-model="all"></th>
+                    <th>名称</th>
+                    <th>网址</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="v in data">
+                    <td><input type="checkbox" ng-checked="all"></td>
+                    <td>{{v.name}}</td>
+                    <td>{{v.url}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <script>
+    var m = angular.module('app', []);
+    m.controller('ctrl', function($scope){
+        $scope.data = [
+            { name: '百度', url: 'https://www.baidu.com' },
+            { name: 'Bootstrap', url: 'https://www.bootstrap.com' },
+            { name: 'Semantic UI', url: 'https://www.semantic.com' }
+        ]
+    })
+    </script>
+</body>
+</html>
