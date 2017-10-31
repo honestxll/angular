@@ -29,11 +29,11 @@
         return {
             restrict: 'E',
             replate: true,
-            templateUrl: '../view/cs-tab.html',
+            templateUrl: './view/cs-tab.html',
             scope: {},
             controller: function ($scope, $http){
                 $http({
-                    url: '../json/tab.json'
+                    url: './json/tab.json'
                 }).then(res=>$scope.data = res.data.data)
             },
             link: function (scope, el, attr) {
