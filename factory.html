@@ -44,7 +44,7 @@
     // m.factory('lists', function($http){
     //     return {
     //         get: function(callback){
-    //             $http({url: '../json/tab.json'})
+    //             $http({url: './json/tab.json'})
     //                 .then(res=>{
     //                     callback(res);
     //                 })
@@ -64,7 +64,7 @@
      m.factory('lists', function($http){
          return {
              get: function(callback){
-                 return $http({url: '../json/tab.json'});
+                 return $http({url: './json/tab.json'});
              }
          }
      })
