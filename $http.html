@@ -41,7 +41,7 @@
     m.controller('ctrl', function($scope, $http, $httpParamSerializer) {
         $http({
             method: 'get',
-            url: '../json/tab.json',
+            url: './json/tab.json',
             cache: true // 减少异步请求，做缓存，降低服务器压力,做单页面应该的时候比较有用
         }).then(function(response) {
             // 成功的时候
@@ -51,7 +51,7 @@
         })
 
         // 下面是一种简写的形式
-        $http.get('../json/tab.json', {
+        $http.get('./json/tab.json', {
                 cache: true
             })
             .then(response => {
