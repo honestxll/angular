@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="app">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ui-router</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        .ui.section {
+            padding: 2em 0;
+        }
+    </style>
+</head>
+
+<body ng-cloak>
+    <div class="ui container">
+
+        <div class="ui section"></div>
+        <div class="ui header">多个view下的父子级</div>
+
+        <div ui-view=""></div>
+        <div ui-view="content"></div>
+
+    </div>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/angular.js/1.6.6/angular.min.js"></script>
+<script src="https://unpkg.com/angular-ui-router@0.4.3/release/angular-ui-router.min.js"></script>
+<script src="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.js"></script>
+<script>
+    // 加载路由模块
+    var m = angular.module('app', ['ui.router']);
+    // 封装一个请求数据的服务,避免多次请求
+    m.factory('article', function($http) {
+        return {
+            get: function() {
+                return $http({
+                    method: 'get',
+                    url: './json/article.json',
+                    cache: true
+                });
+            }
+        }
+    })
+    // 相当于构造函数要先执行
+    m.config(function($stateProvider, $urlRouterProvider) {
+        // 设置默认路由
+        $urlRouterProvider.otherwise('/home');
+        // 定义路由规则
+        $stateProvider
+            .state('home', {
+                url: '/home',
+                views: {
+                    '@': { templateUrl: './view/menu2.html' },
+                    content: { template: '<h1 style="font-weight: lighter">首页内容</h1>' }
+                }
+            })
+            .state('home.button', {
+                url: 'news',
+                views: {
+                    'son@home': { templateUrl: './view/cs-test.html' },
+                    'content@': { template: '' }
+                }
+            })
+    })
+</script>
+
+</html>
