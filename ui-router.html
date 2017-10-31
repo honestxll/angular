@@ -47,14 +47,14 @@
             template: '<div class="ui header">首页</div>'
         }).state('list', { // 多个路由的设置方法
             url: '/list',
-            templateUrl: '../view/card.html'
+            templateUrl: './view/card.html'
         }).state('table', {
             url: '/table',
-            templateUrl: '../view/cs-user.html',
+            templateUrl: './view/cs-user.html',
             controller: function($scope, $http) {
                 $http({
                         method: 'get',
-                        url: '../json/user.json'
+                        url: './json/user.json'
                     })
                     .then(res => $scope.data = res.data.userInfo);
             }
@@ -67,11 +67,11 @@
             template: '<h1>产品页面</h1>'
         }).state('userInfo', {
             url: '/userInfo/{id}',
-            templateUrl: '../view/userInfo.html',
+            templateUrl: './view/userInfo.html',
             controller: function($scope, $stateParams, $http, $filter) {
                 $http({
                         method: 'get',
-                        url: '../json/user.json'
+                        url: './json/user.json'
                     })
                     .then(res => {
                         var result = $filter('filter')(res.data.userInfo, {id: $stateParams.id});
