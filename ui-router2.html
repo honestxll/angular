@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="app">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ui-router</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.css">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+
+<body ng-cloak>
+    <div class="ui container">
+
+        <div class="ui section"></div>
+        <div class="ui header">内外层路由嵌套</div>
+
+        <div ui-view></div>
+
+    </div>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/angular.js/1.6.6/angular.min.js"></script>
+<script src="https://unpkg.com/angular-ui-router@0.4.3/release/angular-ui-router.min.js"></script>
+<script src="https://cdn.bootcss.com/semantic-ui/2.2.13/semantic.min.js"></script>
+<script>
+    // 加载路由模块
+    var m = angular.module('app', ['ui.router']);
+    // 相当于构造函数要先执行
+    m.config(function($stateProvider, $urlRouterProvider) {
+        // 设置默认路由
+        $urlRouterProvider.otherwise('/home');
+        // 定义路由规则
+        $stateProvider.state('home', {
+            url: '/home',
+            templateUrl: './view/menu.html'
+        }).state('home.news', {
+            url: 'news',
+            template: '<h1>新闻</h1>'
+        }).state('game', {
+            url: '/game',
+            parent: 'home',
+            template: '<h1>游戏</h1>'
+        }).state('login', {
+            url: '/login',
+            template: '<h1>登录</h1>'
+        })
+    })
+</script>
+
+</html>
